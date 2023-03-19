@@ -1,4 +1,3 @@
-package Generics;
 //Per usare funzioni parametriche la classe non deve essere parametrica
 class Test {
     //Brutto perché dobbiamo stare attenti al cast

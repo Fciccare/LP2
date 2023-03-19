@@ -1,5 +1,3 @@
-package Generics;
-
 class Pair<T> {
     private T first, second;
 
