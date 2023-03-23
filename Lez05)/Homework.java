@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+import java.util.RandomAccess;
 
 import javax.imageio.plugins.tiff.TIFFImageReadParam;
 
@@ -40,6 +42,26 @@ class Homework{
             
             index++;
         }
+    }
+
+    //Lineare per AL e LL, senza lista di appoggio su ArrayList
+    public static <T> void reverseListFaella(List<T> list){
+        //Usare RandomAccess con accesso posizionale e swap
+        //Altrimenti lista di appoggio su LinkedList
+
+        //È ILLEGALE MODIFICARE (con funzioni standard) 
+        //UNA LISTA MENTRE SI STA ITERANDO!!!
+        //ConcurrentModificationException (Google it)
+
+        //Per linkedlist è valido la prima soluzioni
+        
+        if (list instanceof RandomAccess){//ArrayList
+            //insert Valentina
+        }else{//Linkedlist
+            //insert first solution
+        }
+
+
     }
 
 }

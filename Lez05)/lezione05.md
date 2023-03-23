@@ -158,5 +158,7 @@ Esempio:
 Guarda la classe Employee in java
 
 ## Jolly limite inferiore 
+vedi lez. 06
 
 ## Eraser (Come funzionano i Generics)
+vedi lez. 06
