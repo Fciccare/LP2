@@ -95,5 +95,124 @@ Da venerdì: correzzioni
 75% sulla nostra prova.
 
 Usato anche nelle prove intercorse, su 4 esercizi, uno trascriverlo a casa e bla bla...
+---- PAUSA ---
+## Classi Locali (senza slide)
+Se una classa interna si trova all'interno di uno scope interno di una funziona si chiama LOCALE.
+```java
+class A{
+	void f(){
+		class B{//locale
+			...
+		}
+	}
+}
+```
+### Differenza con classi interna
+La classe B
+- non può avere nessun modificatore
+- la sua visibilità è limitato al metodo `f()` (è meno visibile di una classe interna privata).
+- Può accedere a tutti gli attribuiti e metodi della classe A
+- Gli oggetti di B hanno un riferimento di A solo se è il metodo non è statico.
+```java
+class A{
+	void f(int n){//B non può essere tipo di ritorno, ma es. Object va bene, ma un iteratore su B esempio va bene.
+		String msg = ...;
+		class B{//locale
+			...
+		}
+	}
+	B b = new B();//è abbrevazione di this
+}
+```
+Questo va bene:
+```java 
+class A{
+	Object f(int n){
+		String msg = ...;
+		class B{//locale
+			System.out.println(n);
+		}
+		B b = new B();
+		return b;
+	}
+}```
 
+La classe B ha accesso a `n` e `msg`?
+Si può fare solo con un vincolo, il codice di B può usare le variabile a patto che le variaibli siano `Effectivily Final` (il compilatore controlla).
+Cioè sono 
+- final
+- o come se lo fossero (cioè che non cambiano)
+*potrei metterci `final` senza aver errore di compilazione, quindi è effettivamente final*
+B vive di più rispetto agli attribuiti quindi possono esserci dei problemi ecco perché B si fa una copia (nascosta) di tutti gli attributi `Effectevily Final`.
+Anche detto che `B cattura n`.
+(Quindi si applica solo a variabili sullo stack che vivono poco)
 
+### Discorso sul perché (domanda)
+Perché non lasciare che solo su B non possa toccare i valori?
+```java
+Object g(){
+	int m = 2;
+	class B {
+		@Ovveride
+		public String toString(){
+			return m + ""; //modo veloce per convertire l'intero in stringa!
+		}
+	}
+...
+//NON COMPILA POICHÈ m CAMBIA
+Object x = new B(); //qua avviene la copia
+int m = 3;
+return x;
+}
+//QUESTA COSA NON VA BENE PERCHÈ ESPONE AI PROGRAMMATORI (NAIVE) CHE B ABBIA FATTO UNA COPIA, MA JAVA VUOLE NASCONDERE QUESTA COSA.
+```
+(le prime versioni di Java volevano `final`, ma tot. versioni in poi, hanno introdutto `Effectivaly Final`)
+questa cosa si può verificare con `javap` che printa il bytecode.
+
+## Classi Anonima
+andiamo sempre più a compattare.
+Non si può dichiare senza instanziare, ma solo su base di una **interfaccia esistente**.
+```java
+new I(){//la graffa indica che non sto instanziando l'interfaccia altrimenti errore.
+	...
+}
+//LA VERSIONE DI SOPRA È LA VERSIONE COMPATTA ED EQUIVALENTE A QUESTA SOTTO.
+class A implements I{
+	...
+}
+new A();
+```
+
+## Classe Anonima da Classe Esistente
+```java
+new C(a1,...,an){
+...
+}
+
+//LA VERSIONE DI SOPRA È LA VERSIONE COMPATTA ED EQUIVALENTE A QUESTA SOTTO.
+class A extends C{
+...
+}
+new A();
+
+//QUESTO PASSAGGIO VIENE SEMPLICATO DALLA PRIMA SCRITTURA.
+class A extends C{
+	public A(b1,...,bn){
+		super(b1,...,bn)
+	}
+}
+new A();
+```
+Un possibile esempio è il `ActionListener()` che usiamo per collegare una funzione al click.
+
+## Esempi dalle slide
+[Link slide da pagina 12 in poi] (http://wpage.unina.it/m.faella/Didattica/LpII/slides/6-nesting.pdf)
+
+`makeSpecialEmployee` è sia classe Anonima che Locale (statica).
+Non tutte le classi Anonime sono Locali!
+
+(l'esercizio pg.17 è uscito a qualche esame)
+
+Esercizio l'ultima slide per casa?
+
+extra ultimi 3 minuti: pagina 9 slide
