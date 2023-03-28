@@ -135,7 +135,8 @@ class A{
 		B b = new B();
 		return b;
 	}
-}```
+}
+```
 
 La classe B ha accesso a `n` e `msg`?
 Si può fare solo con un vincolo, il codice di B può usare le variabile a patto che le variaibli siano `Effectivily Final` (il compilatore controlla).
