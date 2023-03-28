@@ -1,18 +1,21 @@
 import java.util.ArrayList;
 
-class homework {
+class Homework {
     public static void main(String[] argv){
         Controller c = new Controller();
-        Controller.Function ac = c.addFunction("Aria_condizionata");
+        Controller.Function ac = c.addFunction("Aria condizionata");
         Controller.Function risc = c.addFunction("Riscaldamento");
-        Controller.Function sedile = c.addFunction("Sedile_riscaldato");
+        Controller.Function sedile = c.addFunction("Sedile riscaldato");
+
         ac.setIncompatible(risc);
         ac.setIncompatible(sedile);
+
         ac.turnOn();
         c.printOn();
         System.out.println("-----");
-        risc .turnOn();
-        sedile .turnOn();
+
+        risc.turnOn();
+        sedile.turnOn();
         c.printOn();
     }
 }
@@ -42,17 +45,19 @@ class Controller {
 
         private String name;
         private boolean status;
-        private ArrayList<Function> incompatible;
+        private ArrayList<Function> incompatibles;
 
         public Function(String name){
             this.name = name;
             status = false;
-            incompatible = new ArrayList<Function>();
+            incompatibles = new ArrayList<Function>();
         }
 
         public void turnOn(){
-
             status = true;
+            for(Function f: incompatibles){
+                f.turnOff();
+            }
         }
 
         public void turnOff(){
@@ -60,8 +65,14 @@ class Controller {
         }
 
         public void setIncompatible(Function f){
-            incompatible.add(f);
-
+            if(!incompatibles.contains(f))
+                incompatibles.add(f);
+            if(!f.isFunctionAlreadyIncompatible(this))
+                f.setIncompatible(this);
+        }
+        
+        public boolean isFunctionAlreadyIncompatible(Function f){
+            return incompatibles.contains(f);
         }
 
         public boolean getStatus(){
